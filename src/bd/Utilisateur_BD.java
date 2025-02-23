@@ -1,6 +1,5 @@
 package bd;
 import Model.Utilisateur;
-import bd.BaseDonnees;
 import java.sql.*;
 
 public class Utilisateur_BD {

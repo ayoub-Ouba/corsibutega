@@ -9,15 +9,14 @@ public class BaseDonnees {
 
     private static Connection connection = null;
 
-    // Méthode pour obtenir une connexion unique (Singleton)
+    // Méthode pour obtenir une connexion
     public static Connection getConnection() {
     	    try {
-    	        return DriverManager.getConnection(URL, USER, PASSWORD); // Nouvelle connexion
+    	        return DriverManager.getConnection(URL, USER, PASSWORD);
     	   
     	    } catch (SQLException e) {
     	        throw new RuntimeException("Erreur de connexion à la base de données", e);
     	    }
-    	
 
     }
 

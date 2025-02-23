@@ -6,6 +6,9 @@ import Controller.LoginController;
 import Controller.commandeController;
 import Controller.ClientControleer;
 import Model.Client;
+import Controller.produitController;
+import Model.produits;
+import View.produitView;
 public class Main {
 
 	    public static void main(String[] args) {
@@ -13,17 +16,28 @@ public class Main {
 	    	LoginController controller = new LoginController(view);
 	    	Utilisateur user_connecter =controller.login();
 	    	if(user_connecter!=null) {
-	       //ajouter une commande 
-	      /*  Commandeview view_commande = new Commandeview();
-	        commandeController controller_commande = new commandeController(view_commande,user_connecter);
-	        controller_commande.commander();*/
+	      
 	        
+	        
+	       // clientView view_client = new clientView();
+	        //ClientControleer controller_client = new ClientControleer(view_client);
 	        //ajouter Client 
-	        clientView view_client = new clientView();
-	        ClientControleer controller_client = new ClientControleer(view_client);
-	        
 	        //controller_client.ajouter_client();
-	        Client client=controller_client.find_client();
+	        //trouver client
+	        //Client client=controller_client.find_client();
+	        
+    		
+ 	        produitController produit_controller=new produitController();
+ 	        //liste produits
+ 	        produits produits=produit_controller.liste_produit();
+	 	        
+	        //ajouter une commande 
+		      Commandeview view_commande = new Commandeview();
+		      commandeController controller_commande = new commandeController(view_commande,user_connecter);
+		      controller_commande.commander(produits);
+	       
+	        
+	        
 	        
 	    }
 	    }
