@@ -8,11 +8,11 @@ import Model.Client;
 
 public class client_bd {
 	
-	 public boolean ajouter_client(String nom,String prenom,String tele,String email) {
+	 public int ajouter_client(String nom,String prenom,String tele,String email) {
 	        String query = "INSERT INTO `client`(`nom`, `prenom`, `tele`, `Email`) VALUES (?, ?, ?, ?)";
 
 	        try (Connection conn = BaseDonnees.getConnection(); 
-	             PreparedStatement stmt = conn.prepareStatement(query)) {            
+	             PreparedStatement stmt = conn.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS)) {            
 
 	            // Injection des valeurs
 	            stmt.setString(1, nom);  
@@ -22,12 +22,21 @@ public class client_bd {
 
 	            // Exécuter la requête
 	            int rowsInserted = stmt.executeUpdate();
-	            return rowsInserted > 0;  // Retourne `true` si l'insertion a réussi
+	        
+	            if (rowsInserted > 0) {
+	                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) { 
+	                    if (generatedKeys.next()) {
+	                        int idclient = generatedKeys.getInt(1);
+	                        return idclient;
+	                    }
+	                }
+	            }
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	            return false;
+	           
 	        }
+	        return 0;
 	    }
 
 	 public Client find_client(String nom, String prenom) {

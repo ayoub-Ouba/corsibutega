@@ -10,25 +10,28 @@ import Model.Utilisateur;
 import Model.produits;
 import View.produitView;
 import bd.produit_bd;
+import Model.Client;
 
 public class commandeController {
 	  private command_bd command_bd;
 	    private Commandeview view;
 	    private Utilisateur utilisateur;
 	    private produitView view_prod;
+	    private Client client;
 
-	    public commandeController(Commandeview view,Utilisateur user){
+	    public commandeController(Commandeview view,Utilisateur user,Client client){
 	        this.command_bd = new command_bd(); 
 	        this.view_prod=new produitView();
 	        this.view = view;
 	        this.utilisateur=user;
+	        this.client=client;
 	    }
 
 	    public boolean commander(produits produits) {
 	    	//date et l'heure de commande
 	        Timestamp date_commande = Timestamp.from(Instant.now());
 
-	    	int id_comande=command_bd.ajouter_commande(date_commande,utilisateur.getid(),1);
+	    	int id_comande=command_bd.ajouter_commande(date_commande,utilisateur.getid(),client.getid());
 	    	//varyable boolean ajouter_produit
 	    	boolean Ajp=true;
 	    	while(Ajp) {

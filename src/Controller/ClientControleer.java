@@ -1,11 +1,9 @@
 package Controller;
 
-import org.mindrot.jbcrypt.BCrypt;
 
 import Model.Client;
-import View.clientView;
 import bd.client_bd;
-
+import View.clientView;
 public class ClientControleer {
 	   private client_bd client_bd;
 	    private clientView view;
@@ -15,18 +13,23 @@ public class ClientControleer {
 	        this.view = view;
 	    }
 
-	    public void ajouter_client() {
+	    public Client ajouter_client() {
 	        String prenom = view.getInput("Entrez le prenom de client :");
-	        String nom = view.getInput("Entrez le enom de client :");
+	        String nom = view.getInput("Entrez le nom de client :");
 	        String tele = view.getInput("Entrez le numero de telephone du client :");
 	        String email = view.getInput("Entrez l'email de client :");
-
-	        if(client_bd.ajouter_client(nom,prenom,tele,email)) {
+	        int id_client=client_bd.ajouter_client(nom,prenom,tele,email);
+	        if(id_client!=0) {
 	        	view.afficherMessage("le client est bien ajouté");
+	        	return new Client(id_client,nom,prenom,tele,email);
+		                   
+	        	
 	        	
 	        }else {
 	        	view.afficherMessage("il y a un probleme le client n'est pas ajouter");
+	        	
 	        }
+	        return null;
 	        
 	    }
 	    

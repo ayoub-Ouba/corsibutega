@@ -1,15 +1,13 @@
 package Controller;
 import bd.Utilisateur_BD;
 
-import java.awt.desktop.SystemEventListener;
+
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import Model.Utilisateur;
 import View.loginview;
-import View.Commandeview;
 
-import Controller.commandeController;
 
 public class LoginController {
 	    private Utilisateur_BD Utilisateur_BD;
