@@ -1,12 +1,12 @@
-package View;
+package view;
 
 import java.util.Scanner;
 
-public class loginview {
+public class LoginView {
 	
     private Scanner scanner;
 
-    public loginview() {
+    public LoginView() {
     	System.out.println("Bienvenutu");
     	System.out.println("vous pouvez se connectez à votre compte ");
         scanner = new Scanner(System.in);

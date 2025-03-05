@@ -1,11 +1,11 @@
-package View;
+package view;
 
 import java.util.Scanner;
 
-public class Commandeview {
+public class CommandView {
 	  private Scanner scanner;
 
-	    public Commandeview() {
+	    public CommandView() {
 	    System.out.println("Faire Une Commande");
 	        scanner = new Scanner(System.in);
 	    }

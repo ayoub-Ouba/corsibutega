@@ -1,4 +1,4 @@
-package bd;
+package basedonne;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class command_bd {
+public class Command_bd {
 
     public int ajouter_commande(Timestamp dateCommande, int idUser, int idClient) {
         String query = "INSERT INTO `commande`(`status`, `date_commande`, `date_preparation`, `date_payment`, `id_user`, `id_client`) VALUES (?, ?, ?, ?, ?, ?)";

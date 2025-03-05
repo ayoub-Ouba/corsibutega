@@ -1,24 +1,24 @@
-package bd;
+package basedonne;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import Model.produits;
-import Model.produit;
+import model.Produit;
+import model.Produits;
 
-public class produit_bd {
+public class Produit_bd {
 	// liste des produits 
-	 public  produits liste_produit() {
+	 public  Produits liste_produit() {
 		    String query = "SELECT Id_produit,image,label,prix,id_categorie FROM produit";
 		    try (Connection conn = BaseDonnees.getConnection();
 		         PreparedStatement stmt = conn.prepareStatement(query)) {
 		        
 		       ResultSet res = stmt.executeQuery();
-		       produits produits=new produits();
+		       Produits produits=new Produits();
 		       while(res.next()) {
-		            	produit prd=new produit(res.getInt("Id_produit"),res.getString("label"),res.getFloat("prix"),res.getInt("id_categorie"));
+		            	Produit prd=new Produit(res.getInt("Id_produit"),res.getString("label"),res.getFloat("prix"),res.getInt("id_categorie"));
 		            	produits.ajouterproduit(prd);
 		        }
 		       return produits;

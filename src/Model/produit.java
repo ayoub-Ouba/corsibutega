@@ -1,13 +1,13 @@
-package Model;
+package model;
 
 
-public class produit {
+public class Produit {
 	    private int  id;
 	    private String label;
 	    private float  prix;
 	    private int id_catg;
 
-	    public produit(int id,String label,float prix,int id_catg) {
+	    public Produit(int id,String label,float prix,int id_catg) {
 	        this.id = id;
 	        this.label = label;
 	        this.prix = prix;

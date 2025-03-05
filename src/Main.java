@@ -1,38 +1,38 @@
-import View.loginview;
-import View.Commandeview;
-import View.clientView;
-import Model.Utilisateur;
-import Controller.LoginController;
-import Controller.commandeController;
-import Controller.ClientControleer;
-import Model.Client;
-import Controller.produitController;
-import Model.produits;
-import View.produitView;
+import controller.ClientControleer;
+import controller.LoginController;
+import controller.CommandeController;
+import controller.ProduitController;
+import model.Client;
+import model.Utilisateur;
+import model.Produits;
+import view.CommandView;
+import view.ClientView;
+import view.LoginView;
+import view.ProduitView;
 public class Main {
 
 	    public static void main(String[] args) {
-	    	loginview view = new loginview();
+	    	LoginView view = new LoginView();
 	    	LoginController controller = new LoginController(view);
 	    	Utilisateur user_connecter =controller.login();
 	    	if(user_connecter!=null) {
 	      
-		       clientView view_client = new clientView();
+	    		ClientView view_client = new ClientView();
 		       ClientControleer controller_client = new ClientControleer(view_client);
 		        //ajouter Client 
-		       //Client client=controller_client.ajouter_client();
+		       Client client=controller_client.ajouter_client();
 		        //trouver client
-		        Client client=controller_client.find_client();
+		        //Client client=controller_client.find_client();
 		        if(client!=null) {
 		        
 	    		
-	 	        produitController produit_controller=new produitController();
+		        ProduitController produit_controller=new ProduitController();
 	 	        //liste produits
-	 	        produits produits=produit_controller.liste_produit();
+		        Produits produits=produit_controller.liste_produit();
 		 	        
 		        //ajouter une commande 
-			      Commandeview view_commande = new Commandeview();
-			      commandeController controller_commande = new commandeController(view_commande,user_connecter,client);
+		        CommandView view_commande = new CommandView();
+		        CommandeController controller_commande = new CommandeController(view_commande,user_connecter,client);
 			      controller_commande.commander(produits);
 
 		        }

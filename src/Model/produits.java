@@ -1,14 +1,14 @@
-package Model;
+package model;
 import java.util.ArrayList;
 
-public class produits {
-	public  ArrayList<produit> produits;
+public class Produits {
+	public  ArrayList<Produit> produits;
 	
-	public produits() {
-		this.produits= new ArrayList<produit>();
+	public Produits() {
+		this.produits= new ArrayList<Produit>();
 	}
 	
-	public void ajouterproduit(produit pr) {
+	public void ajouterproduit(Produit pr) {
 		produits.add(pr);
 		
 	}

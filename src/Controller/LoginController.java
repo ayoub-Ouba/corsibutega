@@ -1,19 +1,17 @@
-package Controller;
-import bd.Utilisateur_BD;
-
-
+package controller;
+import model.Utilisateur;
+import view.LoginView;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import Model.Utilisateur;
-import View.loginview;
+import basedonne.Utilisateur_BD;
 
 
 public class LoginController {
 	    private Utilisateur_BD Utilisateur_BD;
-	    private loginview view;
+	    private LoginView view;
 
-	    public LoginController(loginview view) {
+	    public LoginController(LoginView view) {
 	        this.Utilisateur_BD = new Utilisateur_BD(); 
 	        this.view = view;
 	    }

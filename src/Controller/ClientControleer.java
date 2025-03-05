@@ -1,15 +1,15 @@
-package Controller;
+package controller;
 
 
-import Model.Client;
-import bd.client_bd;
-import View.clientView;
+import basedonne.Client_bd;
+import model.Client;
+import view.ClientView;
 public class ClientControleer {
-	   private client_bd client_bd;
-	    private clientView view;
+	   private Client_bd client_bd;
+	    private ClientView view;
 
-	    public ClientControleer(clientView view) {
-	        this.client_bd = new client_bd(); 
+	    public ClientControleer(ClientView view) {
+	        this.client_bd = new Client_bd(); 
 	        this.view = view;
 	    }
 

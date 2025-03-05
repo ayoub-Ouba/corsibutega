@@ -1,33 +1,32 @@
-package Controller;
+package controller;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 
+import basedonne.Command_bd;
+import basedonne.Produit_bd;
+import model.Client;
+import model.Produits;
+import model.Utilisateur;
+import view.CommandView;
+import view.ProduitView;
 
-import View.Commandeview;
-import bd.command_bd;
-import Model.Utilisateur;
-import Model.produits;
-import View.produitView;
-import bd.produit_bd;
-import Model.Client;
-
-public class commandeController {
-	  private command_bd command_bd;
-	    private Commandeview view;
+public class CommandeController {
+	  private Command_bd command_bd;
+	    private CommandView view;
 	    private Utilisateur utilisateur;
-	    private produitView view_prod;
+	    private ProduitView view_prod;
 	    private Client client;
 
-	    public commandeController(Commandeview view,Utilisateur user,Client client){
-	        this.command_bd = new command_bd(); 
-	        this.view_prod=new produitView();
+	    public CommandeController(CommandView view,Utilisateur user,Client client){
+	        this.command_bd = new Command_bd(); 
+	        this.view_prod=new ProduitView();
 	        this.view = view;
 	        this.utilisateur=user;
 	        this.client=client;
 	    }
 
-	    public boolean commander(produits produits) {
+	    public boolean commander(Produits produits) {
 	    	//date et l'heure de commande
 	        Timestamp date_commande = Timestamp.from(Instant.now());
 
@@ -43,7 +42,7 @@ public class commandeController {
 	    		int produit_choisi=view_prod.getInputQ("choisi le id de produit ");
 	    		int quantiter_cmd=view_prod.getInputQ("la quantiter commander");
 	    		
-	    		if(produit_bd.ajouter_prd_commande(id_comande,produit_choisi,quantiter_cmd)) {
+	    		if(Produit_bd.ajouter_prd_commande(id_comande,produit_choisi,quantiter_cmd)) {
 	    			System.out.println("le produit est ajouté");
 	    		}
 	    		String rep =view.getInput("vous voulez ajouter un autre produit t(oui)/f(non)");

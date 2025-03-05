@@ -1,9 +1,9 @@
-package View;
+package view;
 import java.util.Scanner;
-public class clientView {
+public class ClientView {
 		  private Scanner scanner;
 
-		    public clientView() {
+		    public ClientView() {
 		    	System.out.println("Gestion Client");
 		        scanner = new Scanner(System.in);
 		    }

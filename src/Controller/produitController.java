@@ -1,20 +1,20 @@
-package Controller;
+package controller;
 
-import Model.produit;
-import View.produitView;
-import bd.produit_bd;
-import Model.produits;
+import basedonne.Produit_bd;
+import model.Produit;
+import model.Produits;
+import view.ProduitView;
 
-public class produitController {
-	private produit_bd produit_bd;
-    private produit produit;
+public class ProduitController {
+	private Produit_bd produit_bd;
+    private Produit produit;
 
-    public produitController() {
-        this.produit_bd = new produit_bd(); 
+    public ProduitController() {
+        this.produit_bd = new Produit_bd(); 
     }
 
-    public produits liste_produit() {
-    	produits produits=produit_bd.liste_produit();
+    public Produits liste_produit() {
+    	Produits produits=produit_bd.liste_produit();
     	return produits;
       
     } 

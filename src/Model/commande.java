@@ -1,7 +1,7 @@
-package Model;
+package model;
 import java.time.LocalDateTime; 
 
-public class commande {
+public class Commande {
 	    private String status;
 	    private LocalDateTime  date_commande;
 	    private LocalDateTime  date_preparation;
@@ -9,7 +9,7 @@ public class commande {
 	    private int id_user;
 	    private int id_client ;
 
-	    public commande(String status,LocalDateTime date_commande,LocalDateTime date_preparation,LocalDateTime date_payment, int id_user,int id_client) {
+	    public Commande(String status,LocalDateTime date_commande,LocalDateTime date_preparation,LocalDateTime date_payment, int id_user,int id_client) {
 	        this.status = status;
 	        this.date_commande = date_commande;
 	        this.date_preparation = date_preparation;

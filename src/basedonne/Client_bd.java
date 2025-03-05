@@ -1,12 +1,13 @@
-package bd;
+package basedonne;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import Model.Client;
 
-public class client_bd {
+import model.Client;
+
+public class Client_bd {
 	
 	 public int ajouter_client(String nom,String prenom,String tele,String email) {
 	        String query = "INSERT INTO `client`(`nom`, `prenom`, `tele`, `Email`) VALUES (?, ?, ?, ?)";

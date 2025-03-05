@@ -1,11 +1,11 @@
-package View;
+package view;
 
 import java.util.Scanner;
 
-public class produitView {
+public class ProduitView {
 	  private Scanner scanner;
 
-	    public produitView() {
+	    public ProduitView() {
 	        scanner = new Scanner(System.in);
 	    }
 

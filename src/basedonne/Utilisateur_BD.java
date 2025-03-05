@@ -1,6 +1,7 @@
-package bd;
-import Model.Utilisateur;
+package basedonne;
 import java.sql.*;
+
+import model.Utilisateur;
 
 public class Utilisateur_BD {
 	
