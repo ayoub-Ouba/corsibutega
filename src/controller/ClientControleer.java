@@ -1,6 +1,10 @@
 package controller;
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1264f539e04be219c41c47d6e04ef9954577c518
 import basedonne.Client_bd;
 import model.Client;
 import view.ClientView;
@@ -10,6 +14,20 @@ public class ClientControleer {
 
 	    public ClientControleer(ClientView view) {
 	        this.client_bd = new Client_bd(); 
+<<<<<<< HEAD
+=======
+=======
+import basedonne.ClientBd;
+import model.Client;
+import view.ClientView;
+public class ClientControleer {
+	   private ClientBd client_bd;
+	    private ClientView view;
+
+	    public ClientControleer(ClientView view) {
+	        this.client_bd = new ClientBd(); 
+>>>>>>> b68b217 (Version Dashboard)
+>>>>>>> 1264f539e04be219c41c47d6e04ef9954577c518
 	        this.view = view;
 	    }
 

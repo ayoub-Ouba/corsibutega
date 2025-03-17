@@ -1,0 +1,14 @@
+# Ignorer tout par défaut
+*
+
+# Ne pas ignorer les dossiers lib et src
+!lib/
+!src/
+!lib/**
+!src/**
+
+# Ignorer les fichiers spécifiques d'Eclipse
+.metadata/
+.settings/
+.classpath
+.project
