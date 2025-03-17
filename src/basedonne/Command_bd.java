@@ -43,8 +43,6 @@ public class Command_bd {
                 PreparedStatement stmt = conn.prepareStatement(req)) { 
 	            stmt.setString(1, status);  
 	            stmt.setInt(2, id_commande);
-                      
-
             int rowsInserted = stmt.executeUpdate();
            if(rowsInserted>0) {
         	   return true;
@@ -55,6 +53,22 @@ public class Command_bd {
         }
         
         return false;
+    }
+    
+    public boolean supprimerCommande(int id) {
+    	String req="DELETE FROM `commande` WHERE Id_commande=?";
+    	
+    	try(Connection conn=BaseDonnees.getConnection();
+    		PreparedStatement stmt = conn.prepareStatement(req)){
+    		stmt.setInt(1, id);
+    		int rowsInserted = stmt.executeUpdate();
+            if(rowsInserted>0) {
+          	   return true;
+             }	
+    	}catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	return false;
     }
 }
 

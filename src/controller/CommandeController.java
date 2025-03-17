@@ -26,6 +26,9 @@ public class CommandeController {
 	        this.client=client;
 	    }
 
+	    public boolean supprimerCommande(int id) {
+	    	return command_bd.supprimerCommande( id);
+	    }
 	    public boolean commander(Produits produits) {
 	    	//date et l'heure de commande
 	        Timestamp date_commande = Timestamp.from(Instant.now());

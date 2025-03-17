@@ -17,19 +17,24 @@ public class LoginController {
 	    }
 
 	    public Utilisateur login() {
-	        String email = view.getInput("Entrez votre email: ");
-	        String password = view.getInput("Entrez votre mot de passe: ");
-
+	        String email = view.getEmail();
+	        String password = view.getPassword();
+	       
 	        Utilisateur utilisateur = Utilisateur_BD.get_information_apartir_email(email);
-
-	        if (utilisateur != null && BCrypt.checkpw(password, utilisateur.getPassword()) ) {
 	        
-	            view.afficherMessage("Connexion réussie !");
-	           
-	            
-	            
+	        if (email.isEmpty() || email.equals("Email")) {
+                view.showMessage("Veuillez entrer un email valide.");
+               
+            }
+	        else if (password.isEmpty()) {
+                view.showMessage("Veuillez entrer un mot de passe.");
+                
+            }
+	       
+	        else if (utilisateur != null && BCrypt.checkpw(password, utilisateur.getPassword()) ) {
+	            view.showMessage("Connexion réussie !");
 	        } else {
-	            view.afficherMessage("email ou mot de passe incorrect.");
+	            view.showMessage("email ou mot de passe incorrect.");
 	            
 	        }
 	        return utilisateur;
