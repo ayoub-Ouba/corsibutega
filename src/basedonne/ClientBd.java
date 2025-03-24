@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Client;
 
-public class Client_bd {
+public class ClientBd {
 	
 	 public int ajouter_client(String nom,String prenom,String tele,String email) {
 	        String query = "INSERT INTO `client`(`nom`, `prenom`, `tele`, `Email`) VALUES (?, ?, ?, ?)";
@@ -67,4 +69,31 @@ public class Client_bd {
 		    
 		    return null; // Aucun client trouvé
 		}
+	 public List<Client> liste_clients() {
+		    List<Client> clients = new ArrayList<>();
+		    String query = "SELECT Id_Client, nom, prenom, tele, Email FROM client";
+		    
+		    try (Connection conn = BaseDonnees.getConnection();
+		         PreparedStatement stmt = conn.prepareStatement(query)) {
+		        
+		        try (ResultSet res = stmt.executeQuery()) {
+		            while (res.next()) {  // Utilisez while pour récupérer tous les clients
+		                clients.add(new Client(
+		                    res.getInt("Id_Client"),
+		                    res.getString("nom"),
+		                    res.getString("prenom"),
+		                    res.getString("tele"),
+		                    res.getString("Email")
+		                ));
+		            }
+		        }
+		        
+		    } catch (SQLException e) {
+		        System.err.println("Erreur lors de la récupération des clients : " + e.getMessage());
+		    }
+		    
+		    // Retourner la liste vide si aucun client n'est trouvé, plutôt que null
+		    return clients;
+		}
+
 }

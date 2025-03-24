@@ -3,7 +3,7 @@ import java.sql.*;
 
 import model.Utilisateur;
 
-public class Utilisateur_BD {
+public class UtilisateurBD {
 	
 	public Utilisateur get_information_apartir_email(String email) {
 		 String query = "SELECT `Id_user`, `Nom_complet`, `Email`, `password`, `Type` FROM `user` WHERE Email= ?";

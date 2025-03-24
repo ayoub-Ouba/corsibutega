@@ -1,21 +1,33 @@
 package view;
 
+import java.util.List;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
+import model.Client;
 
 public class DashboardView extends JFrame {
-    
+
     private DefaultTableModel model;
     private JTable table;
+    private JPanel contentPanel;
+    private CardLayout cardLayout;
+    public List<Client> clients;
 
-    public DashboardView() {
+    public DashboardView(List<Client> clients) {
+    	 this.clients = clients;
+    	 
         setTitle("Dashboard");
         setSize(1200, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
 
+        // Simuler des données de clients pour le test
+       
+      
+
+        // Header, Sidebar et Content Panel (Rien à changer ici)
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
         header.setPreferredSize(new Dimension(getWidth(), 70));
@@ -25,15 +37,8 @@ public class DashboardView extends JFrame {
         titleLabel.setForeground(new Color(66, 133, 244));
         header.add(titleLabel, BorderLayout.CENTER);
 
-        JButton btnAjouter = new JButton("➕ Ajouter Client");
-        btnAjouter.setFont(new Font("Serif", Font.BOLD, 14));
-        btnAjouter.setBackground(new Color(66, 133, 244));
-        btnAjouter.setForeground(Color.WHITE);
-        btnAjouter.setPreferredSize(new Dimension(180, 40));
-
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightPanel.setBackground(Color.WHITE);
-        rightPanel.add(btnAjouter);
         header.add(rightPanel, BorderLayout.EAST);
 
         JPanel sidebar = new JPanel();
@@ -41,40 +46,33 @@ public class DashboardView extends JFrame {
         sidebar.setPreferredSize(new Dimension(210, getHeight()));
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
 
-        sidebar.add(createSidebarButton("🏠 Accueil"));
-        sidebar.add(createSidebarButton("👤 Clients"));
-        sidebar.add(createSidebarButton("🛒 Commandes "));
-        sidebar.add(createSidebarButton("🚪 Déconnexion"));
+        JButton btnAccueil = createSidebarButton("🏠 Accueil");
+        JButton btnClients = createSidebarButton("👤 Clients");
+        JButton btnCommandes = createSidebarButton("🛒 Commandes ");
+        JButton btnDeconnexion = createSidebarButton("🚪 Déconnexion");
 
-        String[] columnNames = {"Numéro Client", "Nom", "Prénom", "Commande", "Prix Total (€)"};
-        model = new DefaultTableModel(columnNames, 0) { // 0 lignes au début
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 3;
-            }
-        };
+        sidebar.add(btnAccueil);
+        sidebar.add(btnClients);
+        sidebar.add(btnCommandes);
+        sidebar.add(btnDeconnexion);
 
-        table = new JTable(model);
-        table.setRowHeight(100); // Augmenter la hauteur de ligne
+        // Panneau central avec CardLayout
+        cardLayout = new CardLayout();
+        contentPanel = new JPanel(cardLayout);
 
-        table.getColumnModel().getColumn(0).setPreferredWidth(50);  // Numéro Client
-        table.getColumnModel().getColumn(1).setPreferredWidth(100); // Nom
-        table.getColumnModel().getColumn(2).setPreferredWidth(100); // Prénom
-        table.getColumnModel().getColumn(3).setPreferredWidth(650); // Commande (Grande colonne)
-        table.getColumnModel().getColumn(4).setPreferredWidth(50);  // Prix Total 
+        // Ajouter les vues
+        contentPanel.add(createAccueilPanel(), "Accueil");
+        contentPanel.add(createClientPanel(this.clients), "Clients");
+        contentPanel.add(createCommandePanel(), "Commandes");
 
-        table.getColumnModel().getColumn(3).setCellRenderer(new CommandeRenderer());
+        // ActionListeners pour changer de vue
+        btnAccueil.addActionListener(e -> cardLayout.show(contentPanel, "Accueil"));
+        btnClients.addActionListener(e -> cardLayout.show(contentPanel, "Clients"));
+        btnCommandes.addActionListener(e -> cardLayout.show(contentPanel, "Commandes"));
 
-        JScrollPane scrollPane = new JScrollPane(table);
         getContentPane().add(sidebar, BorderLayout.WEST);
         getContentPane().add(header, BorderLayout.NORTH);
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-        // Action du bouton "Ajouter Client"
-        btnAjouter.addActionListener(e -> {
-            System.out.println("Bouton Ajouter Client cliqué !");
-            new AjouterClient(this); // Ouvre la fenêtre d'ajout
-        });
+        getContentPane().add(contentPanel, BorderLayout.CENTER);
     }
 
     private JButton createSidebarButton(String text) {
@@ -88,50 +86,131 @@ public class DashboardView extends JFrame {
         button.setFocusPainted(false);
         return button;
     }
+    private JPanel createAccueilPanel() {
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.LIGHT_GRAY);
+        panel.add(new JLabel("Bienvenue sur l'accueil !"));
+        return panel;
+    }
 
-    class CommandePanel extends JPanel {
-        public CommandePanel() {
-            setLayout(new BorderLayout());
+    // Vue Clients
+    public JPanel createClientPanel(List<Client> clients) {
+    	    JPanel panel = new JPanel(new BorderLayout());
 
-            String[] columnNames = {"N° Produit", "Nom Produit", "Quantité", "Prix (€)", "Actions"};
-            Object[][] data = {
-                {"P001", "Pain", "2", "5.00", ""},
-                {"P002", "Fromage", "1", "10.00", ""},
-            };
+    	    // Panel pour le titre et le bouton
+    	    JPanel topPanel = new JPanel(new BorderLayout());
+    	    topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            DefaultTableModel model = new DefaultTableModel(data, columnNames) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return column == 4;
-                }
-            };
+    	    JLabel titleLabel = new JLabel("Liste des Clients");
+    	    titleLabel.setFont(new Font("Serif", Font.BOLD, 20));
 
-            JTable table = new JTable(model);
-            table.setRowHeight(30);
-            JScrollPane scrollPane = new JScrollPane(table);
-            add(scrollPane, BorderLayout.CENTER);
+    	    JButton btnAjouterClient = new JButton("➕ Ajouter");
+    	    btnAjouterClient.setFont(new Font("Serif", Font.BOLD, 14));
+    	    btnAjouterClient.setBackground(new Color(66, 133, 244));
+    	    btnAjouterClient.setForeground(Color.WHITE);
+
+    	    // Ajout du titre à gauche et du bouton à droite
+    	    topPanel.add(titleLabel, BorderLayout.WEST);
+    	    topPanel.add(btnAjouterClient, BorderLayout.EAST);
+
+    	    // Tableau des clients
+    	    String[] columnNames = {"ID", "Nom", "Prénom", "Email", "Téléphone"};
+    	    DefaultTableModel clientModel = new DefaultTableModel(columnNames, 0);
+
+    	    // Mettre à jour la table après récupération des clients
+    	    updateClientTable(clientModel, clients);
+
+    	    // Création du tableau
+    	    JTable clientTable = new JTable(clientModel);
+    	    clientTable.setRowHeight(30);
+    	    JScrollPane scrollPane = new JScrollPane(clientTable);
+
+    	    // Ajouter une action au bouton pour ajouter un client
+    	    btnAjouterClient.addActionListener(e -> {
+    	        // Ouvrir la fenêtre d'ajout de client
+    	        new AjouterClient(this).setVisible(true);
+    	    });
+
+    	    // Ajouter des marges autour du tableau
+    	    JPanel tablePanel = new JPanel(new BorderLayout());
+    	    tablePanel.add(scrollPane, BorderLayout.CENTER);  // Ajouter scrollPane à tablePanel au lieu de panel
+    	    
+
+    	    // Ajout des composants au panel
+    	    panel.add(topPanel, BorderLayout.NORTH);
+    	    panel.add(tablePanel, BorderLayout.CENTER);  // Ajouter tablePanel avec marges au lieu de scrollPane directement
+
+    	    return panel;
+    	}
+
+
+    private void updateClientTable(DefaultTableModel model, List<Client> clients) {
+        // Vérification si la liste est vide ou nulle
+        if (clients == null || clients.isEmpty()) {
+            System.out.println("Aucun client trouvé.");
+            model.setRowCount(0); // Vider le tableau si la liste est vide
+           
+           
         }
+
+        // Réinitialiser les lignes existantes dans le tableau
+        model.setRowCount(0); // Supprimer toutes les lignes avant d'ajouter les nouvelles données
+
+        // Ajouter chaque client à la table
+     
+        	for (Client client : clients) {
+        	    if (client.getid()!=0 && client.getnom() != null && client.getprenom() != null) {
+        	        model.addRow(new Object[]{
+        	            client.getid(),
+        	            client.getnom(),
+        	            client.getprenom(),
+        	            client.getemail(),
+        	            client.gettele()
+        	        });
+        	    } else {
+        	        System.out.println("Client avec données manquantes : " + client);
+        	        
+        	    }
+        	}
+        	 
+             
     }
 
-    public void ajouterClientTableau(String numero, String nom, String prenom) {
-        SwingUtilities.invokeLater(() -> {
-            model.addRow(new Object[]{numero, nom, prenom, new CommandePanel(), "0.00"});
-            table.revalidate();
-            table.repaint();
-        });
-    }
 
-    class CommandeRenderer extends DefaultTableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            if (value instanceof CommandePanel) {
-                return (CommandePanel) value;
-            }
-            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        }
-    }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new DashboardView().setVisible(true));
-    }
+
+    private JPanel createCommandePanel() {
+   	 JPanel panel = new JPanel(new BorderLayout());
+        
+        // Panel pour le titre et le bouton
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        JLabel titleLabel = new JLabel("Liste des commandes");
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 20));
+        
+        JButton btnAjouterClient = new JButton("➕ Ajouter");
+        btnAjouterClient.setFont(new Font("Serif", Font.BOLD, 14));
+        btnAjouterClient.setBackground(new Color(66, 133, 244));
+        btnAjouterClient.setForeground(Color.WHITE);
+        
+        // Ajout du titre à gauche et du bouton à droite
+        topPanel.add(titleLabel, BorderLayout.WEST);
+        topPanel.add(btnAjouterClient, BorderLayout.EAST);
+        
+        // Tableau des clients
+        String[] columnNames = {"ID", "Status", "Date Commande", "Date Préparation", "Date Payement"};
+        DefaultTableModel clientModel = new DefaultTableModel(columnNames, 0);
+        
+        JTable clientTable = new JTable(clientModel);
+        clientTable.setRowHeight(30);
+        JScrollPane scrollPane = new JScrollPane(clientTable);
+        
+        // Ajout des composants au panel
+        panel.add(topPanel, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        return panel;
+
+   }
+
 }

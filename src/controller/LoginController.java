@@ -1,76 +1,69 @@
 package controller;
+
+import model.Client;
 import model.Utilisateur;
 import view.LoginView;
+import view.DashboardView;
+import controller.ClientControleer;
+
+import basedonne.ClientBd;
+
+import java.util.List;
+
+import javax.swing.SwingUtilities;
 
 import org.mindrot.jbcrypt.BCrypt;
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1264f539e04be219c41c47d6e04ef9954577c518
-import basedonne.Utilisateur_BD;
-
-
-public class LoginController {
-	    private Utilisateur_BD Utilisateur_BD;
-	    private LoginView view;
-
-	    public LoginController(LoginView view) {
-	        this.Utilisateur_BD = new Utilisateur_BD(); 
-<<<<<<< HEAD
-=======
-=======
 import basedonne.UtilisateurBD;
 
-
 public class LoginController {
-	    private UtilisateurBD Utilisateur_BD;
-	    private LoginView view;
+    private UtilisateurBD Utilisateur_BD;
+    private LoginView view;
 
-	    public LoginController(LoginView view) {
-	        this.Utilisateur_BD = new UtilisateurBD(); 
->>>>>>> b68b217 (Version Dashboard)
->>>>>>> 1264f539e04be219c41c47d6e04ef9954577c518
-	        this.view = view;
-	    }
+    public LoginController(LoginView view) {
+        this.Utilisateur_BD = new UtilisateurBD();
+        this.view = view;
+       
+    }
 
-	    public Utilisateur login() {
-<<<<<<< HEAD
-	        String email = view.getEmail();
-	        String password = view.getPassword();
-	       
-	        Utilisateur utilisateur = Utilisateur_BD.get_information_apartir_email(email);
-	        
-	        if (email.isEmpty() || email.equals("Email")) {
-                view.showMessage("Veuillez entrer un email valide.");
-               
-            }
-	        else if (password.isEmpty()) {
-                view.showMessage("Veuillez entrer un mot de passe.");
+    public Utilisateur login() {
+    
+        String email = view.getEmail();
+        String password = view.getPassword();
+
+        if (password.isEmpty() || email.equals("Email")) {
+            view.showMessage("Veuillez entrer un email valide.");
+            return null;
+        }
+
+        if (password.isEmpty()) {
+            view.showMessage("Veuillez entrer un mot de passe.");
+            return null;
+        }
+
+        Utilisateur utilisateur = Utilisateur_BD.get_information_apartir_email(email);
+
+        if (utilisateur != null && BCrypt.checkpw(password, utilisateur.getPassword())) {
+            view.showMessage("Connexion réussie !");
+            
+           
+            if (utilisateur.getType().equals("AGC")) {
+                // Fermer la vue actuelle
+            	view.setVisible(false);
                 
+               
+
+                // Créer le contrôleur pour le client et charger les clients
+                ClientControleer clientController = new ClientControleer();
+                clientController.clients();
+                // Créer et afficher le Dashboard
+                DashboardView dashboard = new DashboardView(clientController.clients());
+                dashboard.setVisible(true);
             }
-	       
-	        else if (utilisateur != null && BCrypt.checkpw(password, utilisateur.getPassword()) ) {
-	            view.showMessage("Connexion réussie !");
-	        } else {
-	            view.showMessage("email ou mot de passe incorrect.");
-=======
-	        String email = view.getInput("Entrez votre email: ");
-	        String password = view.getInput("Entrez votre mot de passe: ");
 
-	        Utilisateur utilisateur = Utilisateur_BD.get_information_apartir_email(email);
-
-	        if (utilisateur != null && BCrypt.checkpw(password, utilisateur.getPassword()) ) {
-	        
-	            view.afficherMessage("Connexion réussie !");
-	           
-	            
-	            
-	        } else {
-	            view.afficherMessage("email ou mot de passe incorrect.");
->>>>>>> 1264f539e04be219c41c47d6e04ef9954577c518
-	            
-	        }
-	        return utilisateur;
-	    }
+        } else {
+            view.showMessage("Email ou mot de passe incorrect.");
+            return null;
+        }
+        return utilisateur;
+    }
 }

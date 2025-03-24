@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import model.Produit;
 import model.Produits;
 
-public class Produit_bd {
+public class ProduitBd {
 	// liste des produits 
 	 public  Produits liste_produit() {
 		    String query = "SELECT Id_produit,image,label,prix,id_categorie FROM produit";

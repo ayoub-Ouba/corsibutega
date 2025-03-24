@@ -1,39 +1,37 @@
 package model;
 
 public class Utilisateur {
-		private int id;
-	    private String email;
-	    private String password;
-	    private String Type;
-	    private String Nom_Complet;
+    private int id;
+    private String email;
+    private String password;
+    private String type;
+    private String nomComplet;
 
-	    public Utilisateur(int id,String email, String password,String Type,String Nom_Complet) {
-	    	this.id = id;
-	        this.email = email;
-	        this.password = password;
-	        this.Type = Type;
-	        this.Nom_Complet = Nom_Complet;
-	    }
+    public Utilisateur(int id, String email, String password, String type, String nomComplet) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.type = type;
+        this.nomComplet = nomComplet;
+    }
 
-	    public int getid() {
-	        return id;
-	    }
+    public int getId() {
+        return id;
+    }
 
-	    public String getemail() {
-	        return email;
-	    }
+    public String getEmail() {
+        return email;
+    }
 
-	    public String getPassword() {
-	        return password;
-	    }
-	    public String getType() {
-	        return Type;
-	    }
+    public String getPassword() {
+        return password;
+    }
 
-	    public String getNom_Complet() {
-	        return Nom_Complet;
-	    }
-	
+    public String getType() {
+        return type;
+    }
 
-
+    public String getNomComplet() {
+        return nomComplet;
+    }
 }
