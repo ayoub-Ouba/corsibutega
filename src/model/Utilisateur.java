@@ -1,5 +1,6 @@
 package model;
 
+import basedonne.UtilisateurBD;
 public class Utilisateur {
     private int id;
     private String email;
@@ -14,7 +15,8 @@ public class Utilisateur {
         this.type = type;
         this.nomComplet = nomComplet;
     }
-
+    public Utilisateur() {
+    }
     public int getId() {
         return id;
     }
@@ -22,9 +24,15 @@ public class Utilisateur {
     public String getEmail() {
         return email;
     }
+    public void setEmail(String email_v) {
+        email=email_v;
+    }
 
     public String getPassword() {
         return password;
+    }
+    public void setPassword(String password_v) {
+    	password=password_v;
     }
 
     public String getType() {
@@ -33,5 +41,11 @@ public class Utilisateur {
 
     public String getNomComplet() {
         return nomComplet;
+    }
+    
+    public Utilisateur getInformation() {
+    	UtilisateurBD utilis_bd=new UtilisateurBD();
+    	 Utilisateur utilisateur = utilis_bd.getInformationFromAnEmail(email);
+    	 return utilisateur;
     }
 }

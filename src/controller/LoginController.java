@@ -1,26 +1,18 @@
 package controller;
 
-import model.Client;
 import model.Utilisateur;
+
 import view.LoginView;
 import view.DashboardView;
-import controller.ClientControleer;
-
-import basedonne.ClientBd;
-
-import java.util.List;
-
-import javax.swing.SwingUtilities;
 
 import org.mindrot.jbcrypt.BCrypt;
-import basedonne.UtilisateurBD;
 
 public class LoginController {
-    private UtilisateurBD Utilisateur_BD;
     private LoginView view;
+    private Utilisateur utilisateur;
 
     public LoginController(LoginView view) {
-        this.Utilisateur_BD = new UtilisateurBD();
+        this.utilisateur=new Utilisateur();
         this.view = view;
        
     }
@@ -30,7 +22,7 @@ public class LoginController {
         String email = view.getEmail();
         String password = view.getPassword();
 
-        if (password.isEmpty() || email.equals("Email")) {
+        if (email.equals("Email")) {
             view.showMessage("Veuillez entrer un email valide.");
             return null;
         }
@@ -39,19 +31,15 @@ public class LoginController {
             view.showMessage("Veuillez entrer un mot de passe.");
             return null;
         }
+        utilisateur.setEmail(email);
+        utilisateur.setPassword(password);
+        Utilisateur utilisateur_information = utilisateur.getInformation();
 
-        Utilisateur utilisateur = Utilisateur_BD.get_information_apartir_email(email);
-
-        if (utilisateur != null && BCrypt.checkpw(password, utilisateur.getPassword())) {
+        if (utilisateur_information != null && BCrypt.checkpw(password, utilisateur_information.getPassword())) {
             view.showMessage("Connexion réussie !");
-            
-           
-            if (utilisateur.getType().equals("AGC")) {
+            if (utilisateur_information.getType().equals("AGC")) {
                 // Fermer la vue actuelle
             	view.setVisible(false);
-                
-               
-
                 // Créer le contrôleur pour le client et charger les clients
                 ClientControleer clientController = new ClientControleer();
                 clientController.clients();
@@ -64,6 +52,6 @@ public class LoginController {
             view.showMessage("Email ou mot de passe incorrect.");
             return null;
         }
-        return utilisateur;
+        return utilisateur_information;
     }
 }

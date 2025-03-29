@@ -11,7 +11,7 @@ import model.Client;
 
 public class ClientBd {
 	
-	 public int ajouter_client(String nom,String prenom,String tele,String email) {
+	 public int addClient(String nom,String prenom,String tele,String email) {
 	        String query = "INSERT INTO `client`(`nom`, `prenom`, `tele`, `Email`) VALUES (?, ?, ?, ?)";
 
 	        try (Connection conn = BaseDonnees.getConnection(); 
@@ -69,7 +69,7 @@ public class ClientBd {
 		    
 		    return null; // Aucun client trouvé
 		}
-	 public List<Client> liste_clients() {
+	 public List<Client> arrayClientBD() {
 		    List<Client> clients = new ArrayList<>();
 		    String query = "SELECT Id_Client, nom, prenom, tele, Email FROM client";
 		    
@@ -95,5 +95,26 @@ public class ClientBd {
 		    // Retourner la liste vide si aucun client n'est trouvé, plutôt que null
 		    return clients;
 		}
+	 
+	 public int countClient() {
+		    int countClient = 0;
+		    String query = "SELECT count(*) FROM client";
+		    
+		    try (Connection conn = BaseDonnees.getConnection();
+		         PreparedStatement stmt = conn.prepareStatement(query)) {
+		        
+		        try (ResultSet res = stmt.executeQuery()) {
+		            if (res.next()) {
+		                countClient = res.getInt(1); // Utiliser 1 pour récupérer le premier (et unique) résultat
+		            }
+		        }
+		        
+		    } catch (SQLException e) {
+		        System.err.println("Erreur lors de la récupération du nombre de clients : " + e.getMessage());
+		    }
+		    
+		    return countClient;
+		}
+
 
 }

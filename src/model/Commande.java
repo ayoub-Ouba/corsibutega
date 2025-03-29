@@ -1,5 +1,12 @@
 package model;
-import java.time.LocalDateTime; 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+
+
+import basedonne.CommandBd; 
 
 public class Commande {
 	    private String status;
@@ -35,6 +42,10 @@ public class Commande {
 	    }
 	    public int getid_client() {
 	        return id_client;
+	    }
+	    public static int countCommande() {
+	    	CommandBd countbd=new CommandBd();
+	    	return countbd.countCommande();
 	    }
 
 	   

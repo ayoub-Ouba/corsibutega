@@ -70,5 +70,25 @@ public class CommandBd {
         }
     	return false;
     }
+    
+    public int countCommande() {
+	    int countcommande = 0;
+	    String query = "SELECT count(*) FROM commande";
+	    
+	    try (Connection conn = BaseDonnees.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	        
+	        try (ResultSet res = stmt.executeQuery()) {
+	            if (res.next()) {
+	                countcommande = res.getInt(1); // Utiliser 1 pour récupérer le premier (et unique) résultat
+	            }
+	        }
+	        
+	    } catch (SQLException e) {
+	        System.err.println("Erreur lors de la récupération du nombre de commande : " + e.getMessage());
+	    }
+	    
+	    return countcommande;
+	}
 }
 

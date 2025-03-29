@@ -31,5 +31,6 @@ public class Produit {
 	    	System.out.println("id :"+this.id+" label :"+this.label+" prix :"+this.prix);
 	    	
 	    }
+	    
 
 }

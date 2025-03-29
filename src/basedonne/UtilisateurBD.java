@@ -5,7 +5,7 @@ import model.Utilisateur;
 
 public class UtilisateurBD {
 	
-	public Utilisateur get_information_apartir_email(String email) {
+	public Utilisateur getInformationFromAnEmail(String email) {
 		 String query = "SELECT `Id_user`, `Nom_complet`, `Email`, `password`, `Type` FROM `user` WHERE Email= ?";
 	        try (Connection conn = BaseDonnees.getConnection(); 
 	             PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -20,9 +20,6 @@ public class UtilisateurBD {
 	            e.printStackTrace();
 	        }
 	        return null;
-		
-		
 	}
-
 
 }

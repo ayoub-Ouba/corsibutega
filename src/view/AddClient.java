@@ -6,10 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.border.Border;
 
-public class AjouterClient extends JFrame {
-    private DashboardView dashboardViewInstance;
+import controller.ClientControleer;
 
-    public AjouterClient(DashboardView dashboard) {
+public class AddClient extends JFrame {
+    private DashboardView dashboardViewInstance;
+    public String nom;
+    public String prenom;
+    public String tele;
+    public String email;
+
+    public AddClient(DashboardView dashboard) {
         this.dashboardViewInstance = dashboard;
         setTitle("Ajouter un Client");
         setSize(400, 300);
@@ -59,22 +65,25 @@ public class AjouterClient extends JFrame {
         btnAjouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String numero = txttele.getText();
                 String nom = txtNom.getText();
+                setnom(nom);
                 String prenom = txtPrenom.getText();
+                setnom(prenom);
+                String email = txtNom.getText();
+                setnom(email);
+                String tele = txtPrenom.getText();
+                setnom(tele);
 
                 // Vérifier que les champs ne sont pas vides
-                if (numero.isEmpty() || nom.isEmpty() || prenom.isEmpty()) {
-                    JOptionPane.showMessageDialog(AjouterClient.this, "Veuillez remplir tous les champs.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                if (email.isEmpty() || nom.isEmpty() || prenom.isEmpty()|| tele.isEmpty()) {
+                    JOptionPane.showMessageDialog(AddClient.this, "Veuillez remplir tous les champs.", "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;
-                }
-
-                // Ajouter le client dans la table ou base de données (à compléter)
-                // Par exemple : dashboardViewInstance.ajouterClientTableau(numero, nom, prenom);
-
-                // Fermer la fenêtre après ajout
-                JOptionPane.showMessageDialog(AjouterClient.this, "Client ajouté avec succès !");
-                dispose();  // Fermer la fenêtre de saisie
+                }else {
+                	  ClientControleer clientController = new ClientControleer();
+                	  clientController.addClient(nom,prenom,email,tele,AddClient.this) ;
+                	  dashboardViewInstance.refreshClientView();
+                	  dispose();
+                	                  }
             }
         });
 
@@ -121,7 +130,18 @@ public class AjouterClient extends JFrame {
         // Rendre la fenêtre visible
         setVisible(true);
     }
-
+	public void setnom(String nom) {
+		 this.nom= nom;
+	}
+	public void setprenom(String prenom) {
+		 this.prenom= prenom;
+	}
+	public void setemail(String mail) {
+		 this.email= mail;
+	}
+	public void settele(String tele) {
+		 this.tele= tele;
+	}
     // Fonction pour styliser les champs de texte (JTextField)
     private void styleInputField(JTextField field) {
         // Bordure arrondie pour les champs de texte
@@ -134,6 +154,6 @@ public class AjouterClient extends JFrame {
 
     // Fonction principale pour tester la fenêtre
     public static void main(String[] args) {
-        new AjouterClient(null);  // Exemple d'utilisation
+        new AddClient(null);  // Exemple d'utilisation
     }
 }

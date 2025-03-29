@@ -1,9 +1,5 @@
 import controller.LoginController;
 import view.LoginView;
-import view.DashboardView;
-import model.Utilisateur;
-
-import model.Utilisateur;
 
 
 public class Main {
