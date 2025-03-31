@@ -2,33 +2,35 @@ package controller;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 
 import basedonne.CommandBd;
 import basedonne.ProduitBd;
 import model.Client;
+import model.Commande;
 import model.Produits;
 import model.Utilisateur;
 import view.CommandView;
 import view.ProduitView;
 
 public class CommandeController {
-
-	  private CommandBd command_bd;
-
-	
-
-	    private CommandView view;
-	    private Utilisateur utilisateur;
-	    private ProduitView view_prod;
-	    private Client client;
+		  private CommandBd command_bd;
+		  private CommandView view;
+		  private Utilisateur utilisateur;
+		  private ProduitView view_prod;
+		  private Client client;
+		  private Commande commande;
 
 	    public CommandeController(CommandView view,Utilisateur user,Client client){
-
-	        this.command_bd = new CommandBd(); 
 	        this.view_prod=new ProduitView();
 	        this.view = view;
 	        this.utilisateur=user;
 	        this.client=client;
+	        
+	    }
+	    public CommandeController(){
+	       
+	        
 	    }
 	    public boolean supprimerCommande(int id) {
 	    	return command_bd.supprimerCommande( id);
@@ -53,21 +55,28 @@ public class CommandeController {
 
 	    			System.out.println("le produit est ajouté");
 	    		}
-	    		String rep =view.getInput("vous voulez ajouter un autre produit t(oui)/f(non)");
-	    		if (rep.equals("t")) {
-	    		    Ajp = true;
-	    		} else if (rep.equals("f")) {
-	    		    Ajp = false;
-	    		    System.out.println("votre commande est bien  ajouté");
-	    		} else {
-	    			System.out.println("votre commande est bien  ajouté");
-	    		    return false;
-	    		}
+	    		//String rep =view.getInput("vous voulez ajouter un autre produit t(oui)/f(non)");
+	    		//if (rep.equals("t")) {
+	    		  //  Ajp = true;
+	    		//} else if (rep.equals("f")) {
+	    		  //  Ajp = false;
+	    		   // System.out.println("votre commande est bien  ajouté");
+	    		//} else {
+	    			//System.out.println("votre commande est bien  ajouté");
+	    		   // return false;
+	    		//}
 
 	    	}
 	    	return true;
-
-	      
 	    }
+	    public  List<Commande> commandes() {		    
+	    	List<Commande> Commandes = Commande.arrayCommande();
+	        if (Commandes != null) {
+	            System.out.println("Commandes récupérés : " + Commandes.size());
+	        } else {
+	            System.out.println("Aucun Commande trouvé");
+	        }
+	        return Commandes;
+	    } 
 
 }

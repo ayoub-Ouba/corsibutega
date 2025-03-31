@@ -11,9 +11,6 @@ public class Client {
     private String email;
     private ClientBd client_bd ;
     
- 
-    
-    
     public  Client (int id,String nom, String prenom,String tele,String email) {
     	this.id = id;
         this.nom = nom;

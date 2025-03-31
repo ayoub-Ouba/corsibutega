@@ -5,6 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import model.Commande;
 
 public class CommandBd {
 
@@ -89,6 +95,51 @@ public class CommandBd {
 	    }
 	    
 	    return countcommande;
+	}
+    public List<Commande> arrayCommandeBD() {
+	    List<Commande> commandes = new ArrayList<>();
+	    String query = "SELECT commande.`Id_commande`, `status`,produit.`Id_produit`, `label`,`Quantiter_commander`,`prix`,`date_commande`, `date_preparation`, `date_payment`, `id_client` FROM `commande`,`produit`,`détaille_commande` WHERE commande.Id_commande=détaille_commande.id_commande and détaille_commande.id_produit=produit.Id_produit order by  Id_commande";
+	    
+	    try (Connection conn = BaseDonnees.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	        
+	        try (ResultSet res = stmt.executeQuery()) {
+	            while (res.next()) {  
+	            	String dateStr = res.getString("date_commande");
+	            	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
+	            	
+	            	LocalDateTime dateCommande = LocalDateTime.parse(dateStr, formatter);
+	            	
+	            	String dateprepStr = res.getString("date_preparation");
+	            	LocalDateTime date_preparation=null;
+	            	if(dateprepStr!=null) {
+		            	date_preparation = LocalDateTime.parse(dateprepStr, formatter);
+	            	}
+	            
+	            	String datepayStr = res.getString("date_payment");
+	            	LocalDateTime date_payment1=null;
+	            	if(datepayStr!=null) {
+		            	date_payment1 = LocalDateTime.parse(datepayStr, formatter);
+
+	            	}
+	            	commandes.add(new Commande(
+	                    res.getInt("Id_commande"),
+	                    res.getString("status"),
+	                    res.getInt("Id_produit"),res.getString("label"),
+	                    res.getInt("Quantiter_commander"),
+	                    res.getInt("prix"),
+	                    dateCommande,date_preparation,date_payment1,
+	                    res.getInt("id_client")
+	                ));
+	            }
+	        }
+	        
+	    } catch (SQLException e) {
+	        System.err.println("Erreur lors de la récupération des commandes : " + e.getMessage());
+	    }
+	    
+	    // Retourner la liste vide si aucun client n'est trouvé, plutôt que null
+	    return commandes;
 	}
 }
 

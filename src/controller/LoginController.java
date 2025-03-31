@@ -42,9 +42,9 @@ public class LoginController {
             	view.setVisible(false);
                 // Créer le contrôleur pour le client et charger les clients
                 ClientControleer clientController = new ClientControleer();
-                clientController.clients();
+                CommandeController commandeController = new CommandeController();
                 // Créer et afficher le Dashboard
-                DashboardView dashboard = new DashboardView(clientController.clients());
+                DashboardView dashboard = new DashboardView(clientController.clients(),view,commandeController.commandes());
                 dashboard.setVisible(true);
             }
 

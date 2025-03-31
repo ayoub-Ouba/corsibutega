@@ -1,14 +1,12 @@
 package controller;
 import java.util.List;
 
-import basedonne.ClientBd;
 
 import model.Client;
 import view.DashboardView;
 import view.AddClient;
 
 public class ClientControleer {
-	   private ClientBd client_bd;
 	   private DashboardView view;
 	   private Client client;
 
@@ -50,8 +48,7 @@ public class ClientControleer {
 	    
 	    public List<Client> clients() {
 	    
-	    	List<Client> clients = client.arrayClient();
-	        //List<Client> clients = client_bd.liste_clients();  // Récupère la liste des clients depuis la base de données
+	    	List<Client> clients = Client.arrayClient();
 	        if (clients != null && this.view!=null) {
 	            System.out.println("Clients récupérés : " + clients.size());
 	        } else {
