@@ -15,8 +15,8 @@ public class ClientControleer {
 		}
 
 	    public Client addClient( String nom,String prenom,String tele, String email,AddClient addClientView) {
-	       this.client=new Client(0,nom,prenom,tele,email);
-	       int idClient=client.addClient();
+	       this.client=new Client(0,nom,prenom,tele,email);// Création d'un objet client avec ID temporaire (0)
+	       int idClient=client.addClient();// Ajout du client à la base de données et récupération de son ID
 	       if(idClient!=0) {
 	    	System.out.println("le client est bien ajouté");
 	    	client.setid(idClient);
@@ -24,7 +24,7 @@ public class ClientControleer {
 	    	 
 	    	return client;
 	     }else {
-	    	 System.out.println("il y a un probleme le client n'est pas ajouter");
+	    	 System.out.println("Problème lors de l'ajout du client.");
 	    	 addClientView.setVisible(false);
 	    }
 	 return null;
@@ -48,7 +48,7 @@ public class ClientControleer {
 	    
 	    public List<Client> clients() {
 	    
-	    	List<Client> clients = Client.arrayClient();
+	    	List<Client> clients = Client.arrayClient();// Récupération de la liste des clients
 	        if (clients != null && this.view!=null) {
 	            System.out.println("Clients récupérés : " + clients.size());
 	        } else {

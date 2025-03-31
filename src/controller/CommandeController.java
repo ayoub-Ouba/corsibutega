@@ -14,33 +14,57 @@ import view.CommandView;
 import view.ProduitView;
 
 public class CommandeController {
-		  private CommandBd command_bd;
-		  private CommandView view;
-		  private Utilisateur utilisateur;
-		  private ProduitView view_prod;
-		  private Client client;
-		  private Commande commande;
+    private CommandBd command_bd;
+    private CommandView view;
+    private Utilisateur utilisateur;
+    private ProduitView view_prod;
+    private Client client;
+    private Commande commande;
 
-	    public CommandeController(CommandView view,Utilisateur user,Client client){
-	        this.view_prod=new ProduitView();
-	        this.view = view;
-	        this.utilisateur=user;
-	        this.client=client;
-	        
-	    }
-	    public CommandeController(){
-	       
-	        
-	    }
-	    public boolean supprimerCommande(int id) {
-	    	return command_bd.supprimerCommande( id);
-	    }
-	    public boolean commander(Produits produits) {
+    /**
+     * Constructeur de CommandeController prenant la vue, l'utilisateur et le client.
+     * @param view Vue associée à la commande
+     * @param user Utilisateur effectuant la commande
+     * @param client Client concerné par la commande
+     */
+    public CommandeController(CommandView view, Utilisateur user, Client client) {
+        this.view_prod = new ProduitView();
+        this.view = view;
+        this.utilisateur = user;
+        this.client = client;
+    }
+
+    /**
+     * Constructeur par défaut.
+     */
+    public CommandeController() {
+        // Constructeur vide (peut être utilisé pour initialiser plus tard)
+    }
+
+    /**
+     * Supprime une commande par son identifiant.
+     * @param id Identifiant de la commande à supprimer
+     * @return true si la suppression a réussi, sinon false
+     */
+    public boolean supprimerCommande(int id) {
+        return command_bd.supprimerCommande(id);
+    }
+
+    /**
+     * Permet de passer une commande en ajoutant les produits choisis.
+     * @param produits Liste des produits disponibles
+     * @return true si la commande est bien enregistrée, sinon false
+     */
+	public boolean commander(Produits produits) {
 	    	//date et l'heure de commande
 	        Timestamp date_commande = Timestamp.from(Instant.now());
 
 	    	int id_comande=command_bd.ajouter_commande(date_commande,utilisateur.getId(),client.getid());
-	    	//varyable boolean ajouter_produit
+			if (id_comande == 0) {
+            System.out.println("Erreur lors de la création de la commande.");
+            return false;
+        }
+	    	//variable boolean ajouter_produit
 	    	boolean Ajp=true;
 	    	while(Ajp) {
 	    		//afficher les information des produits
@@ -74,7 +98,7 @@ public class CommandeController {
 	        if (Commandes != null) {
 	            System.out.println("Commandes récupérés : " + Commandes.size());
 	        } else {
-	            System.out.println("Aucun Commande trouvé");
+	            System.out.println("Aucune Commande trouvée");
 	        }
 	        return Commandes;
 	    } 

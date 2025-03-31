@@ -22,7 +22,7 @@ public class LoginController {
         String email = view.getEmail();
         String password = view.getPassword();
 
-        if (email.equals("Email")) {
+        if (email.equals("Email") || email.isEmpty()) {
             view.showMessage("Veuillez entrer un email valide.");
             return null;
         }
@@ -31,6 +31,7 @@ public class LoginController {
             view.showMessage("Veuillez entrer un mot de passe.");
             return null;
         }
+        // Vérification des informations de l'utilisateur
         utilisateur.setEmail(email);
         utilisateur.setPassword(password);
         Utilisateur utilisateur_information = utilisateur.getInformation();
