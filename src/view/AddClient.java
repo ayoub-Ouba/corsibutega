@@ -88,8 +88,6 @@ public class AddClient extends JFrame {
         });
 
         // Placement des composants avec GridBagLayout
-      
-
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(lblNom, gbc);

@@ -3,13 +3,17 @@ package controller;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-
+//basededonne
 import basedonne.CommandBd;
 import basedonne.ProduitBd;
+
+//model
 import model.Client;
 import model.Commande;
 import model.Produits;
 import model.Utilisateur;
+
+//View
 import view.CommandView;
 import view.ProduitView;
 

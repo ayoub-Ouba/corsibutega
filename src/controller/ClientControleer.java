@@ -11,7 +11,7 @@ public class ClientControleer {
 	   private Client client;
 
 	    public ClientControleer() {
-	    	//client_bd=new ClientBd();
+	
 		}
 
 	    public Client addClient( String nom,String prenom,String tele, String email,AddClient addClientView) {

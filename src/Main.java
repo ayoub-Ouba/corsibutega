@@ -19,5 +19,5 @@ public class Main {
 	        login_v.setVisible(true);
 	        
 			
-}
+ }
 }
