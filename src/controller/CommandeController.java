@@ -1,9 +1,14 @@
 package controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import basedonne.BaseDonnees;
 //basededonne
 import basedonne.CommandBd;
 import basedonne.ProduitBd;
@@ -62,5 +67,32 @@ public class CommandeController {
 	        }
 	        return Commandes;
 	    } 
+		public void updateCommandeStatus(int id, String newStatus) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            // Obtenez la connexion à la base (la méthode getConnection() est à adapter selon votre projet)
+            conn = BaseDonnees.getConnection();
+            String sql = "UPDATE commandes SET status = ? WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, newStatus);
+            stmt.setInt(2, id);
+            int rowsUpdated = stmt.executeUpdate();
+            if(rowsUpdated > 0){
+                System.out.println("Le statut de la commande a été mis à jour.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(stmt != null)
+                    stmt.close();
+                if(conn != null)
+                    conn.close();
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

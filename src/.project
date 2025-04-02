@@ -3,6 +3,7 @@
 	<name>src</name>
 	<comment></comment>
 	<projects>
+		<project>javaproject</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>
