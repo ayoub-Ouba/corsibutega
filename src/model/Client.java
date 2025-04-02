@@ -41,6 +41,11 @@ public class Client {
     public String gettele() {
         return tele;
     }
+    @Override
+    public String toString() {
+        // Affichage uniquement du nom et prénom
+        return nom + " " + prenom;
+    }
     
     public static List<Client> arrayClient() {
     	ClientBd client_bd = new ClientBd(); // Créer une instance locale
@@ -54,4 +59,6 @@ public class Client {
 		ClientBd client_bd = new ClientBd(); 
 	    return client_bd.countClient();
 	}
+
+  
 }

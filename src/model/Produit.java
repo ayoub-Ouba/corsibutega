@@ -1,5 +1,6 @@
 package model;
 
+import basedonne.ProduitBd;
 
 public class Produit {
 	    private int  id;
@@ -27,8 +28,14 @@ public class Produit {
 	    public int getid_catg() {
 	        return id_catg;
 	    }
-	    public void information() {
-	    	System.out.println("id :"+this.id+" label :"+this.label+" prix :"+this.prix);
+	    public String toString() {
+	        // Affichage uniquement du nom et prénom
+	        return label ;
+	    }
+	    
+	    public static Produits liste_produit() {
+	    	ProduitBd prdbd=new ProduitBd();
+	    	return prdbd.liste_produit();
 	    	
 	    }
 	    

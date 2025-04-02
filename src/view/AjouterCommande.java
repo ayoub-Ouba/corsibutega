@@ -4,68 +4,95 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import view.DashboardView;
+import java.util.ArrayList;
+
+import controller.CommandeController;
+import model.Client;
+import model.Produit;
+import view.AjouterProduit;
 
 public class AjouterCommande extends JFrame {
-    private JTextField txtIdProduit, txtIdClient, txtNomProduit, txtQuantite, txtPrixTotal;
-    private JButton btnAjouter, btnAnnuler;
     private DashboardView parent;
+    private JComboBox<Client> inputSlectClients;
+    private JComboBox<Produit> inputSlectProduits;
+    private JTextField txtQuantite;
+    private JButton btnAjouter;
+    private JButton btnAnnuler;
+    private int id_utilisateur;
 
-    public AjouterCommande(DashboardView parent) {
+    public AjouterCommande(DashboardView parent, int id_utilisateur, ArrayList<Produit> produits) {
         this.parent = parent;
+        this.id_utilisateur = id_utilisateur;
+
+        setTitle("Ajouter une Commande");
         setSize(400, 300);
-        setLocationRelativeTo(parent);
-        setLayout(new GridLayout(6, 2, 10, 10));
-        add(new JLabel("ID Produit : "));
-        txtIdProduit =  new JTextField();
-        add(txtIdProduit);
-        
-        add(new JLabel("ID Client : "));
-        txtIdClient = new JTextField();
-        add(txtIdClient);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new GridBagLayout());
 
-        add(new JLabel("Nom Produit : "));
-        txtNomProduit = new JTextField();
-        add(txtNomProduit);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        add(new JLabel("Quantite : "));
+        inputSlectClients = new JComboBox<>(parent.clients.toArray(new Client[0]));
+        inputSlectProduits = new JComboBox<>(produits.toArray(new Produit[0]));
         txtQuantite = new JTextField();
-        add(txtQuantite);
-
-        add(new JLabel("Prix Total : "));
-        txtPrixTotal = new JTextField();
-        add(txtPrixTotal);
+        styleInputField(txtQuantite);
 
         btnAjouter = new JButton("Ajouter");
         btnAnnuler = new JButton("Annuler");
-        add(btnAjouter);
-        add(btnAnnuler);
-        }
+        styleButton(btnAjouter);
+        styleButton(btnAnnuler);
 
-      //  btnAjouter.addActionListener(new ActionListener() {
-         //   @Override
-       //     public void actionPerformed(ActionEvent e) {
-          //      ajouterCommande();
-        //    }
-       // });
-        //btnAnnuler.addActionListener(e -> dispose());
-   // }
-  
+        gbc.gridx = 0; gbc.gridy = 0; add(new JLabel("Sélectionner un Client :"), gbc);
+        gbc.gridx = 1; add(inputSlectClients, gbc);
 
-    //private void ajouterCommande() {
-       // try{
-           // int idProduit = Integer.parseInt(txtIdProduit.getText());
-            //int idClient = Integer.parseInt(txtIdClient.getText());
-            //String nomProduit = txtNomProduit.getText();
-            //int quantite = Integer.parseInt(txtQuantite.getText());
-            //double prixTotal = Double.parseDouble(txtPrixTotal.getText());
-            //JOptionPane.showMessageDialog(this, "Commande ajoutée avec succès.", "Succès",JOptionPane.INFORMATION_MESSAGE);
-           // parent.refreshCommandeView();;
-         //   dispose();
-       // }catch(NumberFormatException ex){
-        //    JOptionPane.showMessageDialog(this,"Veuillez entrer des valeurs valides.","Erreur",JOptionPane.ERROR_MESSAGE);
-      //  }
-    
-    //}
+        gbc.gridx = 0; gbc.gridy = 1; add(new JLabel("Sélectionner un Produit :"), gbc);
+        gbc.gridx = 1; add(inputSlectProduits, gbc);
 
+        gbc.gridx = 0; gbc.gridy = 2; add(new JLabel("Quantité :"), gbc);
+        gbc.gridx = 1; add(txtQuantite, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(btnAjouter);
+        buttonPanel.add(btnAnnuler);
+        add(buttonPanel, gbc);
+
+        btnAjouter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (txtQuantite.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(AjouterCommande.this, "Veuillez remplir tous les champs.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                Client selectedClient = (Client) inputSlectClients.getSelectedItem();
+                Produit selectedProduit = (Produit) inputSlectProduits.getSelectedItem();
+                int qnt = Integer.parseInt(txtQuantite.getText());
+
+                CommandeController cmdc = new CommandeController();
+                int idcommande=cmdc.commander(selectedProduit.getid(), selectedClient.getid(), id_utilisateur, qnt);
+                if ( idcommande!= 0) {
+                    parent.refreshCommandeView();
+                    dispose();
+                    AjouterProduit ajtprd=new AjouterProduit(parent,produits,idcommande);
+                    ajtprd.setVisible(true);
+                }
+            }
+        });
+
+        btnAnnuler.addActionListener(e -> dispose());
+        setVisible(true);
+    }
+
+    private void styleInputField(JTextField field) {
+        field.setPreferredSize(new Dimension(200, 30));
+        field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+    }
+
+    private void styleButton(JButton button) {
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setBackground(new Color(66, 133, 244));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+    }
 }

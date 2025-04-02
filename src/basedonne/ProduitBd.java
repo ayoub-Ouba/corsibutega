@@ -31,6 +31,7 @@ public class ProduitBd {
 		}
 	 //ajouter produit
 	 public  static boolean ajouter_prd_commande(int id_comd,int id_prod,int quantiter) {
+		 System.out.print(id_comd+" "+id_prod+" "+quantiter);
 		    String query = "INSERT INTO `détaille_commande`(id_produit,id_commande, Quantiter_commander) VALUES (?,?,?)";
 		    
 		    try (Connection conn = BaseDonnees.getConnection();

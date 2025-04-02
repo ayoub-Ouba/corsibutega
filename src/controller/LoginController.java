@@ -4,6 +4,7 @@ import model.Utilisateur;
 
 import view.LoginView;
 import view.DashboardView;
+import view.DashbordViewPreparationCommande;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -44,8 +45,16 @@ public class LoginController {
                 ClientControleer clientController = new ClientControleer();
                 CommandeController commandeController = new CommandeController();
                 // Créer et afficher le Dashboard
-                DashboardView dashboard = new DashboardView(clientController.clients(),view,commandeController.commandes());
+                DashboardView dashboard = new DashboardView(clientController.clients(),view,commandeController.commandes(),utilisateur_information.getId());
                 dashboard.setVisible(true);
+            }else {
+            	 // Fermer la vue actuelle
+            	view.setVisible(false);
+            	 // Créer et afficher le Dashboard
+            	 CommandeController commandeController = new CommandeController();
+            	DashbordViewPreparationCommande dashboard = new DashbordViewPreparationCommande(view,commandeController.commandes(),utilisateur_information.getId());
+                dashboard.setVisible(true);
+            	
             }
 
         } else {

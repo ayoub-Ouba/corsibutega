@@ -14,31 +14,25 @@ import controller.CommandeController;
 import model.Client;
 import model.Commande;
 import model.Produits;
-// pour afficher un nombre aprés vergule
 import java.text.DecimalFormat;
 
-
-public class DashboardView extends JFrame {
-
-    private DefaultTableModel model;
+public class DashbordViewPreparationCommande extends JFrame  {
+	private DefaultTableModel model;
     private JTable table;
     private JPanel contentPanel;
     private CardLayout cardLayout;
-    public List<Client> clients;
     public List<Commande> commandes;
     public DashbordController dashcontroller;
     private LoginView view;
     private int id_utilisateur;
- // Déclarer une table spécifique pour les commandes
     private JTable commandeTable; 
 
-    public DashboardView(List<Client> clients,LoginView view,List<Commande> commandes,int id_utilisateur) {
-    	 this.clients = clients;
-    	 this.commandes=commandes;
+    public DashbordViewPreparationCommande(LoginView view,List<Commande> commandes,int id_utilisateur) {
+         this.commandes=commandes;
     	 this.view=view;
     	 this.id_utilisateur=id_utilisateur;
     	 
-        setTitle("Dashboard");
+        setTitle("Dashboard Preparation");
         setSize(1200, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -69,7 +63,6 @@ public class DashboardView extends JFrame {
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
 
         JButton btnAccueil = createSidebarButton("🏠 Accueil");
-        JButton btnClients = createSidebarButton("👤 Clients");
         JButton btnCommandes = createSidebarButton("🛒 Commandes ");
         JButton btnDeconnexion = createSidebarButton("🚪 Déconnexion");
         btnDeconnexion.addActionListener(e -> {
@@ -78,7 +71,6 @@ public class DashboardView extends JFrame {
         });
 
         sidebar.add(btnAccueil);
-        sidebar.add(btnClients);
         sidebar.add(btnCommandes);
         sidebar.add(btnDeconnexion);
 
@@ -88,13 +80,11 @@ public class DashboardView extends JFrame {
 
         // Ajouter les vues
         contentPanel.add(createAccueilPanel(), "Accueil");
-        contentPanel.add(createClientPanel(this.clients), "Clients");
         contentPanel.add(createCommandePanel(this.commandes), "Commandes");
         
 
         // ActionListeners pour changer de vue
         btnAccueil.addActionListener(e -> cardLayout.show(contentPanel, "Accueil"));
-        btnClients.addActionListener(e -> cardLayout.show(contentPanel, "Clients"));
         btnCommandes.addActionListener(e -> cardLayout.show(contentPanel, "Commandes"));
         
 
@@ -129,16 +119,11 @@ public class DashboardView extends JFrame {
         gbc.anchor = GridBagConstraints.WEST ; // Aligner les composants en haut
 
         // Boutons avec un texte dynamique et une taille fixe
-        
-        JButton btnClients = new JButton("Clients : "+clients.size());
         JButton btnCommandes = new JButton("Commandes :"+commandes.size());
      
 
         // Définir la taille des boutons
         Dimension buttonSize = new Dimension(250, 100); // Augmenter la largeur et la hauteur pour des boutons plus grands
-        btnClients.setPreferredSize(buttonSize);
-        btnClients.setBackground(new Color(66, 133, 244));
-        btnClients.setForeground(Color.WHITE);
 
         btnCommandes.setPreferredSize(buttonSize);
         btnCommandes.setBackground(new Color(66, 133, 244));
@@ -147,14 +132,10 @@ public class DashboardView extends JFrame {
        
 
         // Personnaliser l'apparence des boutons
-        btnClients.setFont(new Font("Arial", Font.BOLD, 16)); // Police plus professionnelle
         btnCommandes.setFont(new Font("Arial", Font.BOLD, 16));
        
 
-        // Ajouter les boutons au panel avec des contraintes GridBagLayout
-        gbc.gridx = 0;
-        gbc.gridy = 0; // Positionner le bouton Clients en haut
-        panel.add(btnClients, gbc);
+        gbc.gridy = 0;
 
         gbc.gridx = 1;
         panel.add(btnCommandes, gbc);
@@ -168,84 +149,6 @@ public class DashboardView extends JFrame {
 
         return panel;
 
-    }
-
-
-
-    // Vue Clients
-    public JPanel createClientPanel(List<Client> clients) {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        // Panel pour le titre et le bouton
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JLabel titleLabel = new JLabel("Liste des Clients");
-        titleLabel.setFont(new Font("Serif", Font.BOLD, 20));
-
-        JButton btnAjouterClient = new JButton("➕ Ajouter");
-        btnAjouterClient.setFont(new Font("Serif", Font.BOLD, 14));
-        btnAjouterClient.setBackground(new Color(66, 133, 244));
-        btnAjouterClient.setForeground(Color.WHITE);
-
-        // Ajout du titre à gauche et du bouton à droite
-        topPanel.add(titleLabel, BorderLayout.WEST);
-        topPanel.add(btnAjouterClient, BorderLayout.EAST);
-
-        // Utilisation de la table déjà déclarée (table) et non clientTable
-        String[] columnNames = {"ID", "Nom", "Prénom", "Email", "Téléphone"};
-        model = new DefaultTableModel(columnNames, 0);
-        table.setModel(model);
-
-        // Mettre à jour la table après récupération des clients
-        updateClientTable(model, clients);
-
-        table.setRowHeight(30);
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        // Action pour ajouter un client
-        btnAjouterClient.addActionListener(e -> {
-            AddClient ajtclient_view = new AddClient(this);
-            ajtclient_view.setVisible(true);
-        });
-
-        // Ajouter des marges autour du tableau
-        JPanel tablePanel = new JPanel(new BorderLayout());
-        tablePanel.add(scrollPane, BorderLayout.CENTER);
-
-        panel.add(topPanel, BorderLayout.NORTH);
-        panel.add(tablePanel, BorderLayout.CENTER);
-
-        return panel;
-    }
-
-    public void refreshClientView() {
-        if (clients != null) {
-            ClientControleer clientController = new ClientControleer();
-            this.clients = clientController.clients(); // Récupérer la liste mise à jour
-            updateClientTable((DefaultTableModel) table.getModel(), this.clients); // Mettre à jour la table
-        } else {
-            System.out.println("La table est null, impossible de rafraîchir les données.");
-        }
-    }
-
-    private void updateClientTable(DefaultTableModel model, List<Client> clients) {
-
-        // Réinitialiser les lignes existantes dans le tableau
-        model.setRowCount(0); // Supprimer toutes les lignes avant d'ajouter les nouvelles données
-
-        // Ajouter chaque client à la table
-     
-        	for (Client client : clients) {
-        	        model.addRow(new Object[]{
-        	            client.getid(),
-        	            client.getnom(),
-        	            client.getprenom(),
-        	            client.getemail(),
-        	            client.gettele()
-        	        });
-        	  
-        	}  
     }
     private JPanel createCommandePanel(List<Commande> commandes) {
         JPanel panel = new JPanel(new BorderLayout());
@@ -286,8 +189,8 @@ public class DashboardView extends JFrame {
         btnAjouterCommande.addActionListener(e -> {
             ProduitController prd = new ProduitController();
             Produits produits = prd.liste_produit();
-            AjouterCommande ajtcommande_view = new AjouterCommande(this, this.id_utilisateur, produits.produits);
-            ajtcommande_view.setVisible(true);
+            //AjouterCommande ajtcommande_view = new AjouterCommande(this, this.id_utilisateur, produits.produits);
+           // ajtcommande_view.setVisible(true);
         });
 
         // Ajouter les composants au panel
@@ -326,5 +229,4 @@ public class DashboardView extends JFrame {
         }
     }
 
-
-  }
+}

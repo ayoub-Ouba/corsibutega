@@ -2,8 +2,11 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.sql.Timestamp;
+import java.time.*;
 
-import basedonne.CommandBd; 
+import basedonne.CommandBd;
+import basedonne.ProduitBd; 
 
 public class Commande {
 		private int id;
@@ -18,7 +21,7 @@ public class Commande {
 	    private int id_user;
 	    private int id_client ;
 
-	    public Commande(int id,String status,int id_produit,String label,int Quantiter_commander,float prix,LocalDateTime date_commande,LocalDateTime date_preparation,LocalDateTime date_payment,int id_client) {
+	    public Commande(int id,String status,int id_produit,String label,int Quantiter_commander,float prix,LocalDateTime date_commande,LocalDateTime date_preparation,LocalDateTime date_payment,int id_client,int id_user) {
 	        this.id=id;
 	    	this.status = status;
 	    	this.label=label;
@@ -29,6 +32,7 @@ public class Commande {
 	        this.date_preparation = date_preparation;
 	        this.date_payment = date_payment;
 	        this.id_client = id_client;
+	        this.id_user=id_user;
 	    }
 	    public int getid() {
 	        return id;
@@ -73,10 +77,7 @@ public class Commande {
 	        this.date_commande=dc;
 	    }
 	    public LocalDateTime getdate_preparation() {
-	    	
 	    		return date_preparation;
-	    	
-	        
 	    }
 	    public void setdate_preparation( LocalDateTime dpr) {
 	        this.date_preparation=dpr;
@@ -93,10 +94,18 @@ public class Commande {
 	    public int getid_client() {
 	        return id_client;
 	    }
+	    public int ajouterCommande() {
+	    	CommandBd coumtbd=new CommandBd();
+	    	return coumtbd.ajouter_commande(date_commande,status,id_user,id_client,Quantiter_commander,id_produit);
+	    }
+	    public boolean ajouterProduitauCommande() {	    	
+	    	return ProduitBd.ajouter_prd_commande(id,id_produit,Quantiter_commander);
+	    }
 	    public static int countCommande() {
 	    	CommandBd countbd=new CommandBd();
 	    	return countbd.countCommande();
 	    }
+	    
 
 	    public static List<Commande> arrayCommande() {
 	    	CommandBd countbd=new CommandBd();

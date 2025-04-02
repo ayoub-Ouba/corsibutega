@@ -17,8 +17,7 @@ public class ProduitController {
     }
 
     public Produits liste_produit() {
-    	Produits produits=produit_bd.liste_produit();
-    	return produits;
+    	return Produit.liste_produit();
       
     } 
 
