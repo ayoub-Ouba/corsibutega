@@ -69,9 +69,9 @@ public class AddClient extends JFrame {
                 setnom(nom);
                 String prenom = txtPrenom.getText();
                 setnom(prenom);
-                String email = txtNom.getText();
+                String email = txtEmail.getText();
                 setnom(email);
-                String tele = txtPrenom.getText();
+                String tele = txttele.getText();
                 setnom(tele);
 
                 // Vérifier que les champs ne sont pas vides
@@ -80,8 +80,9 @@ public class AddClient extends JFrame {
                     return;
                 }else {
                 	  ClientControleer clientController = new ClientControleer();
-                	  clientController.addClient(nom,prenom,email,tele,AddClient.this) ;
+                	  clientController.ajouterClient(nom,prenom,tele,email,AddClient.this) ;
                 	  dashboardViewInstance.refreshClientView();
+                	  
                 	  dispose();
                 	                  }
             }

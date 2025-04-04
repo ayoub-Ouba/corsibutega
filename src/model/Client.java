@@ -9,7 +9,6 @@ public class Client {
     private String prenom;
     private String tele;
     private String email;
-    private ClientBd client_bd ;
     
     public  Client (int id,String nom, String prenom,String tele,String email) {
     	this.id = id;
@@ -17,7 +16,6 @@ public class Client {
         this.prenom = prenom;
         this.tele = tele;
         this.email = email;
-        client_bd=new ClientBd();
     }
 
     public int getid() {
@@ -41,23 +39,21 @@ public class Client {
     public String gettele() {
         return tele;
     }
+    // Affichage uniquement du nom et prénom
     @Override
     public String toString() {
-        // Affichage uniquement du nom et prénom
         return nom + " " + prenom;
     }
     
-    public static List<Client> arrayClient() {
-    	ClientBd client_bd = new ClientBd(); // Créer une instance locale
-        return client_bd.arrayClientBD();
+    public static List<Client> listeClient() {
+        return ClientBd.listClientBD();
     	
     }
-    public int addClient() {
-    	return client_bd.addClient(this.nom,this.prenom,this.tele,this.email);
+    public int ajouterClient() {
+    	return ClientBd.ajouterClientBD(this.nom,this.prenom,this.tele,this.email);
     }
-	public static int countClient() {
-		ClientBd client_bd = new ClientBd(); 
-	    return client_bd.countClient();
+	public static int nombreClient() {
+	    return ClientBd.nombreClient();
 	}
 
   

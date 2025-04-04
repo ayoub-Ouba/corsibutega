@@ -8,6 +8,8 @@ import view.DashbordViewPreparationCommande;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import basedonne.BaseDonnees;
+
 public class LoginController {
     private LoginView view;
     private Utilisateur utilisateur;
@@ -15,11 +17,8 @@ public class LoginController {
     public LoginController(LoginView view) {
         this.utilisateur=new Utilisateur();
         this.view = view;
-       
     }
-
     public Utilisateur login() {
-    
         String email = view.getEmail();
         String password = view.getPassword();
 
@@ -27,7 +26,6 @@ public class LoginController {
             view.showMessage("Veuillez entrer un email valide.");
             return null;
         }
-
         if (password.isEmpty()) {
             view.showMessage("Veuillez entrer un mot de passe.");
             return null;
@@ -54,7 +52,6 @@ public class LoginController {
             	 CommandeController commandeController = new CommandeController();
             	DashbordViewPreparationCommande dashboard = new DashbordViewPreparationCommande(view,commandeController.commandes(),utilisateur_information.getId());
                 dashboard.setVisible(true);
-            	
             }
 
         } else {
@@ -63,4 +60,5 @@ public class LoginController {
         }
         return utilisateur_information;
     }
+    
 }

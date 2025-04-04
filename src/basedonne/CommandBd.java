@@ -13,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 import model.Commande;
 
 public class CommandBd {
-
 	public int ajouter_commande(LocalDateTime dateCommande, String status, int idUser, int idClient, int qnt, int idprodui) {
 	    String reqAjoutCommand = "INSERT INTO `commande`(`status`, `date_commande`, `date_preparation`, `date_payment`, `id_user`, `id_client`) VALUES (?, ?, ?, ?, ?, ?)";
 	    String reqAjoutPrd = "INSERT INTO `détaille_commande`(`id_produit`, `id_commande`, `Quantiter_commander`) VALUES (?, ?, ?)";
@@ -39,7 +38,7 @@ public class CommandBd {
 	                        stmt2.setInt(2, idCommande);
 	                        stmt2.setInt(3, qnt);
 
-	                        stmt2.executeUpdate(); // ⚡ Exécuter la requête d'insertion
+	                        stmt2.executeUpdate(); 
 	                    }
 
 	                    return idCommande;
@@ -64,7 +63,7 @@ public class CommandBd {
            if(rowsInserted>0) {
         	   return true;
            }
-            
+        
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -88,7 +87,7 @@ public class CommandBd {
     	return false;
     }
     
-    public int countCommande() {
+    public int nombreCommande() {
 	    int countcommande = 0;
 	    String query = "SELECT count(*) FROM commande";
 	    
@@ -97,7 +96,7 @@ public class CommandBd {
 	        
 	        try (ResultSet res = stmt.executeQuery()) {
 	            if (res.next()) {
-	                countcommande = res.getInt(1); // Utiliser 1 pour récupérer le premier (et unique) résultat
+	                return countcommande = res.getInt(1); 
 	            }
 	        }
 	        
@@ -107,7 +106,7 @@ public class CommandBd {
 	    
 	    return countcommande;
 	}
-    public List<Commande> arrayCommandeBD() {
+    public static List<Commande> listCommande() {
 	    List<Commande> commandes = new ArrayList<>();
 	    String query = "SELECT commande.`Id_commande`, `status`,produit.`Id_produit`, `label`,`Quantiter_commander`,`prix`,`date_commande`, `date_preparation`, `date_payment`, `id_client`,`id_user` FROM `commande`,`produit`,`détaille_commande` WHERE commande.Id_commande=détaille_commande.id_commande and détaille_commande.id_produit=produit.Id_produit order by  Id_commande";
 	    
@@ -150,8 +149,58 @@ public class CommandBd {
 	        System.err.println("Erreur lors de la récupération des commandes : " + e.getMessage());
 	    }
 	    
-	    // Retourner la liste vide si aucun client n'est trouvé, plutôt que null
+	    // Retourner la liste vide si aucun commande n'est trouvé
 	    return commandes;
 	}
+    
+    public List<Commande> selectCommandeProduits(int idcommande) {
+	    List<Commande> commandes = new ArrayList<>();
+	    String query = "SELECT commande.`Id_commande`, `status`,produit.`Id_produit`, `label`,`Quantiter_commander`,`prix`,`date_commande`, `date_preparation`, `date_payment`, `id_client`,`id_user` FROM `commande`,`produit`,`détaille_commande` WHERE commande.Id_commande=détaille_commande.id_commande and détaille_commande.id_produit=produit.Id_produit and commande.Id_commande=?";
+	    
+	    try (Connection conn = BaseDonnees.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	    	 stmt.setInt(1, idcommande);
+	        
+	        try (ResultSet res = stmt.executeQuery()) {
+	            while (res.next()) {  
+	            	String dateStr = res.getString("date_commande");
+	            	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
+	            	
+	            	LocalDateTime dateCommande = LocalDateTime.parse(dateStr, formatter);
+	            	
+	            	String dateprepStr = res.getString("date_preparation");
+	            	LocalDateTime date_preparation=null;
+	            	if(dateprepStr!=null) {
+		            	date_preparation = LocalDateTime.parse(dateprepStr, formatter);
+	            	}
+	            
+	            	String datepayStr = res.getString("date_payment");
+	            	LocalDateTime date_payment1=null;
+	            	if(datepayStr!=null) {
+		            	date_payment1 = LocalDateTime.parse(datepayStr, formatter);
+
+	            	}
+	            	commandes.add(new Commande(
+	                    res.getInt("Id_commande"),
+	                    res.getString("status"),
+	                    res.getInt("Id_produit"),res.getString("label"),
+	                    res.getInt("Quantiter_commander"),
+	                    res.getInt("prix"),
+	                    dateCommande,date_preparation,date_payment1,
+	                    res.getInt("id_client"),
+	                    res.getInt("id_user")
+	                ));
+	            }
+	        }
+	        
+	    } catch (SQLException e) {
+	        System.err.println("Erreur lors de la récupération de commande : " + e.getMessage());
+	    }
+	    
+	    // Retourner la liste vide si aucun produit commander dans la commande
+	    return commandes;
+	}
+    
+    
 }
 

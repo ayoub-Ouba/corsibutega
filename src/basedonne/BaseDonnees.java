@@ -17,7 +17,6 @@ public class BaseDonnees {
     	    } catch (SQLException e) {
     	        throw new RuntimeException("Erreur de connexion à la base de données", e);
     	    }
-
     }
 
     // Méthode pour fermer la connexion

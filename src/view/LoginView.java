@@ -27,15 +27,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import controller.LoginController;
 import view.LoginView;
 
 public class LoginView extends JFrame {
 	   private JTextField emailField;
 	   private JPasswordField passwordField;
 	   private JButton loginButton;
-    
 
-    public  LoginView() {
+    public LoginView() {
     	    setTitle("Login");
 	        setSize(950, 700);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,7 +74,7 @@ public class LoginView extends JFrame {
 	        subtitle.setFont(new Font("Serif", Font.PLAIN, 13));
 	        rightPanel.add(subtitle, gbc);
 
-	        // Champ de texte pour l'email avec placeholder
+	        // Champ de texte pour l'email
 	        gbc.gridy++;
 	        emailField = new JTextField(20);
 	        emailField.setPreferredSize(new Dimension(400, 35));
@@ -102,7 +102,7 @@ public class LoginView extends JFrame {
 
 	        rightPanel.add(emailField, gbc);
 
-	        // Champ de mot de passe avec placeholder
+	        // Champ de mot de passe 
 	        gbc.gridy++;
 	        passwordField = new JPasswordField(20);
 	        passwordField.setPreferredSize(new Dimension(400, 35));
@@ -116,7 +116,12 @@ public class LoginView extends JFrame {
 	        loginButton.setForeground(Color.WHITE);
 	        loginButton.setBorder(new RoundedBorder(10, "B"));
 	        loginButton.setBackground(new Color(66, 133, 244));
-
+	        loginButton.addActionListener(e ->{
+	        	LoginController logincontroller =new LoginController(this);
+	        	logincontroller.login();
+	        });
+	        
+	   
 	        // Effet de survol pour le bouton
 	        loginButton.addMouseListener(new MouseAdapter() {
 	            @Override
@@ -176,9 +181,11 @@ public class LoginView extends JFrame {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             if (type_input.equals("B")) {
-                g2d.setColor(new Color(66, 133, 244)); // Couleur bleue pour le bouton
+            	 // Couleur bleu pour le bouton
+                g2d.setColor(new Color(66, 133, 244));
             } else {
-                g2d.setColor(new Color(220, 236, 255)); // Couleur claire pour les champs de texte
+            	// Couleur claire pour les champs de texte
+                g2d.setColor(new Color(220, 236, 255)); 
             }
 
             g2d.drawRoundRect(x, y, width - 1, height - 1, radius, radius);

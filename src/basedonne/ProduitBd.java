@@ -10,7 +10,7 @@ import model.Produits;
 
 public class ProduitBd {
 	// liste des produits 
-	 public  Produits liste_produit() {
+	 public static Produits liste_produit() {
 		    String query = "SELECT Id_produit,image,label,prix,id_categorie FROM produit";
 		    try (Connection conn = BaseDonnees.getConnection();
 		         PreparedStatement stmt = conn.prepareStatement(query)) {

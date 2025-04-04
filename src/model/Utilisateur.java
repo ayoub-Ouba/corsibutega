@@ -44,8 +44,6 @@ public class Utilisateur {
     }
     
     public Utilisateur getInformation() {
-    	UtilisateurBD utilis_bd=new UtilisateurBD();
-    	 Utilisateur utilisateur = utilis_bd.getInformationFromAnEmail(email);
-    	 return utilisateur;
+    	 return UtilisateurBD.getInformationFromAnEmail(email);
     }
 }

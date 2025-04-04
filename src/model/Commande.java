@@ -2,8 +2,6 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.sql.Timestamp;
-import java.time.*;
 
 import basedonne.CommandBd;
 import basedonne.ProduitBd; 
@@ -101,16 +99,16 @@ public class Commande {
 	    public boolean ajouterProduitauCommande() {	    	
 	    	return ProduitBd.ajouter_prd_commande(id,id_produit,Quantiter_commander);
 	    }
-	    public static int countCommande() {
-	    	CommandBd countbd=new CommandBd();
-	    	return countbd.countCommande();
+	    public static int nombreCommande() {
+	    	CommandBd comdbd=new CommandBd();
+	    	return comdbd.nombreCommande();
 	    }
-	    
-
-	    public static List<Commande> arrayCommande() {
-	    	CommandBd countbd=new CommandBd();
-	    	return countbd.arrayCommandeBD();
+	    public static List<Commande> facture(int idCommande) {
+	    	CommandBd comdbd=new CommandBd();
+	    	return comdbd.selectCommandeProduits(idCommande);
+	    }
+	    public static List<Commande> listCommande() {
+	    	return CommandBd.listCommande();
 	    }
 	   
-
 }
