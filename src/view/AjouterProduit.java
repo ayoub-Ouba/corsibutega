@@ -27,7 +27,6 @@ public class AjouterProduit extends JDialog {
         setSize(400, 200);
         setLocationRelativeTo(parent);
         setLayout(new GridLayout(4, 2, 10, 10));
-
         // Titre principal
         add(new JLabel("Voulez-vous ajouter des produits ?"));
         add(new JLabel("")); 

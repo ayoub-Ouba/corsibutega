@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.Connection;
 
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
+
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -40,7 +42,6 @@ import model.Utilisateur;
 //View
 import view.CommandView;
 import view.ProduitView;
-import view.AjouterProduit;
 
 
 
@@ -73,7 +74,6 @@ public class CommandeController {
 	    	
 	    }
 
-	
 	    
 		public void updateCommandeStatus(int id, String newStatus) {
         Connection conn = null;
@@ -190,10 +190,8 @@ public class CommandeController {
 	            System.out.println("Aucun Commande trouvé");
 	        }
 	        return Commandes;
-	    } 
-	    
+	    }
 		
-	       
-	   
+    
 
 }

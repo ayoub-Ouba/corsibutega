@@ -50,15 +50,15 @@ public class LoginController {
             	view.setVisible(false);
             	 // Créer et afficher le Dashboard
             	 CommandeController commandeController = new CommandeController();
-            	DashbordViewPreparationCommande dashboard = new DashbordViewPreparationCommande(view,commandeController.commandes(),utilisateur_information.getId());
+            	 DashbordViewPreparationCommande dashboard = new DashbordViewPreparationCommande(view,commandeController.commandes(),utilisateur_information.getId());
                 dashboard.setVisible(true);
             }
-
+            
         } else {
             view.showMessage("Email ou mot de passe incorrect.");
             return null;
         }
         return utilisateur_information;
     }
-    
+ 
 }
